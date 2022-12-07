@@ -55,10 +55,48 @@ const images = [
     ];
 
     const carouselDiv = document.querySelector("div.carousel-image");
-    console.log(carouselDiv);
-    const prevButton = document.querySelector(".previous");
-    console.log(prevButton);
-    const nextButton = document.querySelector(".next");
-    console.log(nextButton);
-    const carouselThumb = document.querySelector(".carousel-thumbnails");
-    console.log(carouselThumb);
+
+    
+    let activeIndex = 0;
+
+    images.forEach((slide) => {
+
+
+    carouselDiv.innerHTML += `
+        <div class="my_carousel-item">
+            <img src="${slide.image}" alt="${slide.title}'s image" >
+            <h3>${slide.title}</h3>
+            <p>${slide.text}</p>
+        </div>`;
+    });
+
+    // set default class .active
+    document.getElementsByClassName('my_carousel-item')[activeIndex].classList.add('active');
+
+    
+
+    const prevButton = document.querySelector('div.button.previous');
+
+    prevButton.addEventListener(('click'), function(){
+    
+    activeIndex = (activeIndex <= 0) ? images.length - 1 : activeIndex - 1;
+    console.log(activeIndex);
+    changeSlide(activeIndex);
+    });
+
+    
+    const nextButton = document.querySelector('div.button.next');
+    
+    nextButton.addEventListener(('click'), function(){
+    activeIndex = (activeIndex >=  images.length - 1) ? 0 : activeIndex + 1;
+    changeSlide(activeIndex);
+    });
+
+
+    function changeSlide(elementToShow){
+        
+        document.querySelector('div.my_carousel-item.active').classList.remove('active');
+        document.getElementsByClassName('my_carousel-item')[elementToShow].classList.add('active');
+        
+        return elementToShow;
+    }
